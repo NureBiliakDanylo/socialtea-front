@@ -31,11 +31,37 @@
     </nav>
 
     <div class="container mt-4">
-        <h1>Tea Varieties</h1>
+                <h1>Tea Varieties</h1>
+        <div id="tea-counts" class="row mb-4"></div>
         <div id="tea-list" class="row">
             <!-- Tea varieties will be loaded here -->
         </div>
     </div>
+
+    <script>
+        window.addEventListener('load', () => {
+            fetch('http://localhost:3000/tea/by-country')
+                .then(response => response.json())
+                .then(data => {
+                    const teaCounts = document.getElementById('tea-counts');
+                    data.forEach(country => {
+                        const card = document.createElement('div');
+                        card.className = 'col-md-3 mb-3';
+
+                        card.innerHTML = `
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title">${country.OriginCountry}</h5>
+                                    <p class="card-text">Count: ${country.teaCount}</p>
+                                </div>
+                            </div>
+                        `;
+
+                        teaCounts.appendChild(card);
+                    });
+                });
+        });
+    </script>
 
     <script>
         fetch('http://localhost:3000/tea')
