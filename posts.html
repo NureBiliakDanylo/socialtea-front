@@ -67,7 +67,6 @@
 
         <h1>Posts</h1>
         <div id="post-list" class="list-group">
-            <!-- Posts will be loaded here -->
         </div>
     </div>
 
@@ -126,9 +125,18 @@
                     Content: content
                 })
             })
-            .then(response => response.json())
-            .then(data => {
-                location.reload();
+            .then(response => {
+                if (response.ok) {
+                    location.reload();
+                } else {
+                    return response.json().then(data => {
+                        alert(data.error);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An unexpected error occurred. Please try again.');
             });
         });
 
